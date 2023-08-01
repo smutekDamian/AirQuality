@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmutekDev.AirQuality.Web", "SmutekDev.AirQuality.Web\SmutekDev.AirQuality.Web.csproj", "{B083D28E-BF4F-4872-BEA9-59D085FCEDAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B083D28E-BF4F-4872-BEA9-59D085FCEDAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B083D28E-BF4F-4872-BEA9-59D085FCEDAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B083D28E-BF4F-4872-BEA9-59D085FCEDAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B083D28E-BF4F-4872-BEA9-59D085FCEDAB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F352C214-9C8D-476B-81F5-56269E2A4843}
+	EndGlobalSection
+EndGlobal
