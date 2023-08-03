@@ -1,4 +1,10 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿function initializeAutocomplete() {
+    const input = document.getElementById("autocomplete");
+    const autocomplete = new google.maps.places.Autocomplete(input);
+    google.maps.event.addListener(autocomplete, "place_changed", function () {
+        const place = autocomplete.getPlace();
+        document.getElementById("city").value = place.name;
+        document.getElementById("lat").value = place.geometry.location.lat();
+        document.getElementById("lng").value = place.geometry.location.lng();
+    });
+}
