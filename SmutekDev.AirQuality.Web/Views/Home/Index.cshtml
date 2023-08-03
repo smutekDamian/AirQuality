@@ -1,11 +1,8 @@
-﻿
-@{
-    var apiKey = "";
-}
+﻿@model HomeViewModel
 
 @section Scripts
 {
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=@apiKey&libraries=places&callback=initializeAutocomplete"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=@Model.GooglePlacesApiKey&libraries=places&callback=initializeAutocomplete"></script>
 }
 
 <div class="container text-center">

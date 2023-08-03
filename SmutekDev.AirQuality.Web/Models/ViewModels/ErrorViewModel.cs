@@ -1,4 +1,4 @@
-namespace SmutekDev.AirQuality.Web.Models
+namespace SmutekDev.AirQuality.Web.Models.ViewModels
 {
     public class ErrorViewModel
     {
