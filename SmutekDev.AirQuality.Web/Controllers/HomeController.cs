@@ -24,6 +24,18 @@ public class HomeController : Controller
         return View(viewModel);
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult AirQuality(string city, string lat, string lng)
+    {
+        var viewModel = new AirQualityViewModel
+        {
+            City = city
+        };
+
+        return View(viewModel);
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
