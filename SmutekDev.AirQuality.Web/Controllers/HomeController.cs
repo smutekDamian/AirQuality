@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using SmutekDev.AirQuality.Core.Services;
 using SmutekDev.AirQuality.Web.Configuration;
 using SmutekDev.AirQuality.Web.Models.ViewModels;
 
@@ -8,10 +9,12 @@ namespace SmutekDev.AirQuality.Web.Controllers;
 public class HomeController : Controller
 {
     private readonly IConfiguration _configuration;
+    private readonly IAirQualityService _airQualityService;
 
-    public HomeController(IConfiguration configuration)
+    public HomeController(IConfiguration configuration, IAirQualityService airQualityService)
     {
         _configuration = configuration;
+        _airQualityService = airQualityService;
     }
 
     public IActionResult Index()
@@ -26,11 +29,12 @@ public class HomeController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult AirQuality(string city, string lat, string lng)
+    public async Task<IActionResult> AirQuality(string localization, string lat, string lng)
     {
+        var airQuality = await _airQualityService.GetAirQualityForLocalization(localization, lat, lng);
         var viewModel = new AirQualityViewModel
         {
-            City = city
+            AirQuality = airQuality
         };
 
         return View(viewModel);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SmutekDev.AirQuality.Core.Services;
 using SmutekDev.AirQuality.Integration.OpenAQ.Services;
 
 namespace SmutekDev.AirQuality.Integration.OpenAQ;
@@ -11,6 +12,7 @@ public static class ServiceCollectionExtensions
         {
             x.BaseAddress = new Uri("https://api.openaq.org/v2/");
         });
+        services.AddTransient<IAirQualityService, OpenAQAirQualityService>();
         return services;
     }
 }

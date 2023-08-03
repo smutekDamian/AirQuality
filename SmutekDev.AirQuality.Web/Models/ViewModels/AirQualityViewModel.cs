@@ -1,6 +1,9 @@
-﻿namespace SmutekDev.AirQuality.Web.Models.ViewModels;
+﻿using SmutekDev.AirQuality.Core.Models;
+
+namespace SmutekDev.AirQuality.Web.Models.ViewModels;
 
 public class AirQualityViewModel
 {
-    public string City { get; set; }
+    public string Localization => AirQuality?.LocalizationName;
+    public LocalizationAirQuality AirQuality { get; set; }
 }

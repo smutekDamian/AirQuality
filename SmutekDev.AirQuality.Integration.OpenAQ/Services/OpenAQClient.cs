@@ -10,7 +10,7 @@ internal class OpenAQClient
     private readonly HttpClient _httpClient;
     private readonly ILogger _logger;
 
-    public OpenAQClient(HttpClient httpClient, ILogger logger)
+    public OpenAQClient(HttpClient httpClient, ILogger<OpenAQClient> logger)
     {
         _httpClient = httpClient;
         _logger = logger;
@@ -18,7 +18,7 @@ internal class OpenAQClient
 
     public async Task<GetLocationsDto> GetLocations(string lat, string lng, int page = 1, int pageSize = 10, int skip = 0)
     {
-        var url = $"locations?limit=${pageSize}&page=${page}&offset=${skip}&coordinates=${lat},${lng}";
+        var url = $"locations?limit={pageSize}&page={page}&offset={skip}&coordinates={lat},{lng}&radius=10000";
         try
         {
             var response = await _httpClient.GetAsync(url);
@@ -27,6 +27,7 @@ internal class OpenAQClient
             if (!response.IsSuccessStatusCode)
             {
                 _logger.LogError("Failed to get successful results for location {lat}, {lng}. Message from an API: {msg}", lat, lng, stringResult);
+                return null;
             }
 
             return JsonConvert.DeserializeObject<GetLocationsDto>(stringResult, new JsonSerializerSettings
