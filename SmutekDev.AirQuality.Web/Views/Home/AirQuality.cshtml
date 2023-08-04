@@ -17,15 +17,16 @@ else
                         <h5 class="card-header">@station.Name - @station.City</h5>
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
-                                <table class="table">
-                                    <thead>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
                                         <tr>
                                             <th scope="col"></th>
                                             <th scope="col">Last</th>
                                             <th scope="col">Average</th>
                                         </tr>
-                                    </thead>
-                                    <tbody>
+                                        </thead>
+                                        <tbody>
                                         @foreach (var param in station.QualityParameters)
                                         {
                                             <tr>
@@ -34,8 +35,9 @@ else
                                                 <td>@param.AverageValue @param.Unit</td>
                                             </tr>
                                         }
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </ul>
                         </div>
                     </div>
