@@ -8,3 +8,25 @@
         document.getElementById("lng").value = place.geometry.location.lng().toFixed(8);
     });
 }
+
+function onCheckQualityFormSubmit(e) {
+    e.preventDefault();
+
+    const url = e.target.action;
+    const payload = new FormData(e.target);
+    const resultsContainer = document.getElementById("airQualityResults");
+
+    fetch(url, {
+        method: "post",
+        body: payload
+    })
+    .then(res => res.text())
+    .then(html => resultsContainer.innerHTML = html);
+}
+
+const checkQualityForm = document.getElementById("checkQuality");
+
+if (checkQualityForm) {
+    checkQualityForm.addEventListener("submit", onCheckQualityFormSubmit);
+}
+

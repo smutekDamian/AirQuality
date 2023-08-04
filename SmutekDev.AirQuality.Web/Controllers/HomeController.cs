@@ -37,7 +37,7 @@ public class HomeController : Controller
             AirQuality = airQuality
         };
 
-        return View(viewModel);
+        return PartialView(viewModel);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

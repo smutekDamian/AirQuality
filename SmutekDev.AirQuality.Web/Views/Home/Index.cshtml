@@ -9,10 +9,10 @@
     <h1 class="display-1 mb-5">Check air quality in your location</h1>
     <div class="row">
         <section class="col-6 container">
-            <form class="row g-3 align-items-center text-end" method="post" asp-action="AirQuality">
+            <form id="checkQuality" class="row g-3 align-items-center text-end" method="post" asp-action="AirQuality">
                 @Html.AntiForgeryToken()
-                <div class="col col-md-9">
-                    <input type="text" id="autocomplete" class="form-control" placeholder="Enter a location">
+                <div class="col col-md-8 offset-md-2">
+                    <input type="text" id="autocomplete" class="border border-2 form-control p-3" placeholder="Enter a location">
                 </div>
                 <input type="hidden" id="localization" name="localization"/>
                 <input type="hidden" id="lat" name="lat"/>
@@ -20,4 +20,6 @@
             </form>
         </section>
     </div>
+</div>
+<div class="container mt-5" id="airQualityResults">
 </div>

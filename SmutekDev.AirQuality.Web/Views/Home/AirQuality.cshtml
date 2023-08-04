@@ -1,11 +1,12 @@
 ﻿@model AirQualityViewModel
-@if (Model.AirQuality == null)
+@if (!Model.IsDataAvailable)
 {
-    <h3>Data not found</h3>
+    var localizationText = string.IsNullOrWhiteSpace(Model.Localization) ? "" : $"for {Model.Localization}";
+    <h6 class="display-6 text-center">No air quality data found @localizationText</h6>
 }
 else
 {
-    <h3 class="display-3">Measurement Stations close to @Model.Localization</h3>
+    <h6 class="display-6 text-center">Measurement Stations close to @Model.Localization</h6>
 
     <section class="container mt-5">
         <div class="row g-5 justify-content-center">
