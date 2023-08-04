@@ -6,6 +6,8 @@
         document.getElementById("localization").value = place.name;
         document.getElementById("lat").value = place.geometry.location.lat().toFixed(8);
         document.getElementById("lng").value = place.geometry.location.lng().toFixed(8);
+
+        loadResults();
     });
 }
 
@@ -22,13 +24,19 @@ function toggleLoadingSpinner() {
 
 function onCheckQualityFormSubmit(e) {
     e.preventDefault();
+    loadResults();
+}
+
+function loadResults() {
     toggleLoadingSpinner();
-    const url = e.target.action;
-    const payload = new FormData(e.target);
+    const form = document.getElementById("checkQuality");
     const resultsContainer = document.getElementById("airQualityResults");
     resultsContainer.innerHTML = "";
 
-    setTimeout(function() {
+    const url = form.action;
+    const payload = new FormData(form);
+
+    setTimeout(function () {
         fetch(url, {
                 method: "post",
                 body: payload
