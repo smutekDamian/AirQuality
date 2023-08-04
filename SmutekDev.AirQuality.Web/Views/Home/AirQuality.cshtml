@@ -5,25 +5,43 @@
 }
 else
 {
-    <h3>@Model.Localization</h3>
+    <h3 class="display-3">Measurement Stations close to @Model.Localization</h3>
 
-    @foreach (var station in Model.AirQuality.MeasurementStations)
-    {
-        <div>
-            <p>@station.Name</p>
-            <p>@station.City</p>
-            <div>
-                @foreach (var param in station.QualityParameters)
-                {
-                    <div>
-                        <p>@param.DisplayName</p>
-                        <p>@param.Unit</p>
-                        <p>@param.AverageValue</p>
-                        <p>@param.LastValue</p>
+    <section class="container mt-5">
+        <div class="row g-5 justify-content-center">
+            @foreach (var station in Model.AirQuality.MeasurementStations)
+            {
+                <div class="col-10">
+                    <div class="card border-light">
+                        <h5 class="card-header">@station.Name - @station.City</h5>
+                        <div class="card-body">
+                            <h5 class="card-title">Parameters:</h5>
+                            <ul class="list-group list-group-flush">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">Last</th>
+                                            <th scope="col">Average</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var param in station.QualityParameters)
+                                        {
+                                            <tr>
+                                                <th scope="row">@param.DisplayName</th>
+                                                <td>@param.LastValue @param.Unit</td>
+                                                <td>@param.AverageValue @param.Unit</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </ul>
+                        </div>
                     </div>
-                }
-            </div>
-
+                </div>
+            }
         </div>
-    }
+    </section>
+
 }
