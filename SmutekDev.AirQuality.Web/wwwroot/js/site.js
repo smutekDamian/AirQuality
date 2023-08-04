@@ -9,20 +9,37 @@
     });
 }
 
+function toggleLoadingSpinner() {
+    const loadingSpinner = document.getElementById("loadingSpinner");
+    const displayNoneClass = "d-none";
+
+    if (loadingSpinner.classList.contains(displayNoneClass)) {
+        loadingSpinner.classList.remove(displayNoneClass);
+    } else {
+        loadingSpinner.classList.add(displayNoneClass);
+    }
+}
+
 function onCheckQualityFormSubmit(e) {
     e.preventDefault();
-
+    toggleLoadingSpinner();
     const url = e.target.action;
     const payload = new FormData(e.target);
     const resultsContainer = document.getElementById("airQualityResults");
+    resultsContainer.innerHTML = "";
 
-    fetch(url, {
-        method: "post",
-        body: payload
-    })
-    .then(res => res.text())
-    .then(html => resultsContainer.innerHTML = html);
-}
+    setTimeout(function() {
+        fetch(url, {
+                method: "post",
+                body: payload
+            })
+            .then(res => res.text())
+            .then(html => {
+                resultsContainer.innerHTML = html;
+                toggleLoadingSpinner();
+            });
+    }, 1000);
+};
 
 const checkQualityForm = document.getElementById("checkQuality");
 
