@@ -5,9 +5,11 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmutekDev.AirQuality.Web", "SmutekDev.AirQuality.Web\SmutekDev.AirQuality.Web.csproj", "{B083D28E-BF4F-4872-BEA9-59D085FCEDAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmutekDev.AirQuality.Integration.OpenAQ", "SmutekDev.AirQuality.Integration.OpenAQ\SmutekDev.AirQuality.Integration.OpenAQ.csproj", "{71F92D93-2E4E-425F-8708-5F01441EAFB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmutekDev.AirQuality.Integration.OpenAQ", "SmutekDev.AirQuality.Integration.OpenAQ\SmutekDev.AirQuality.Integration.OpenAQ.csproj", "{71F92D93-2E4E-425F-8708-5F01441EAFB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmutekDev.AirQuality.Core", "SmutekDev.AirQuality.Core\SmutekDev.AirQuality.Core.csproj", "{6ECF09F6-85DF-47FB-9298-C46EB34A75EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmutekDev.AirQuality.Core", "SmutekDev.AirQuality.Core\SmutekDev.AirQuality.Core.csproj", "{6ECF09F6-85DF-47FB-9298-C46EB34A75EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmutekDev.AirQuality.Integration.OpenAQ.Tests", "SmutekDev.AirQuality.Integration.OpenAQ.Tests\SmutekDev.AirQuality.Integration.OpenAQ.Tests.csproj", "{C89F7730-362D-4BFC-B510-61BA1AED79D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{6ECF09F6-85DF-47FB-9298-C46EB34A75EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ECF09F6-85DF-47FB-9298-C46EB34A75EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ECF09F6-85DF-47FB-9298-C46EB34A75EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C89F7730-362D-4BFC-B510-61BA1AED79D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C89F7730-362D-4BFC-B510-61BA1AED79D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C89F7730-362D-4BFC-B510-61BA1AED79D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C89F7730-362D-4BFC-B510-61BA1AED79D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
