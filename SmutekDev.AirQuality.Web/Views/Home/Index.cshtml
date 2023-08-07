@@ -16,12 +16,12 @@
                     <input type="text" id="autocomplete" class="border border-2 form-control p-3" placeholder="Enter a location">
                 </div>
                 <div class="col col-md-3">
-                    <select id="distanceSelect" asp-for="Distance" asp-items="Html.GetEnumSelectList<Distance>()" class="form-select p-3">
+                    <select id="distanceSelect" name="Distance" asp-items="Html.GetEnumSelectList<Distance>()" class="form-select p-3">
                         
                     </select>
                 </div>
                 <div class="col col-md-3">
-                    <select id="sortOrderSelect" asp-for="SortOrder" asp-items="Html.GetEnumSelectList<SortOrder>()" class="form-select p-3">
+                    <select id="sortOrderSelect" name="SortOrder" asp-items="Html.GetEnumSelectList<SortOrder>()" class="form-select p-3">
                         
                     </select>
                 </div>

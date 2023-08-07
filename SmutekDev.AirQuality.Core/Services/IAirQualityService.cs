@@ -4,5 +4,5 @@ namespace SmutekDev.AirQuality.Core.Services;
 
 public interface IAirQualityService
 {
-    Task<LocalizationAirQuality> GetAirQualityForLocalization(string localizationName, string lat, string lng);
+    Task<LocalizationAirQuality> GetAirQualityForLocalization(GetAirQualityParams parameters);
 }

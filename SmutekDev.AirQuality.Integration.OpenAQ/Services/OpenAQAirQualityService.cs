@@ -13,17 +13,23 @@ internal class OpenAQAirQualityService : IAirQualityService
         _client = client;
     }
 
-    public async Task<LocalizationAirQuality> GetAirQualityForLocalization(string localizationName, string lat, string lng)
+    public async Task<LocalizationAirQuality> GetAirQualityForLocalization(GetAirQualityParams parameters)
     {
         GetLocationsDto dto;
 
-        if (string.IsNullOrWhiteSpace(lat) || string.IsNullOrWhiteSpace(lng))
+        var latitude = parameters.Lat;
+        var longitude = parameters.Lng;
+        var localizationName = parameters.Localization;
+        var distance = parameters.Distance;
+        var sortOrder = parameters.SortOrder;
+
+        if (string.IsNullOrWhiteSpace(latitude) || string.IsNullOrWhiteSpace(longitude))
         {
-            dto = await _client.GetLocations(localizationName);
+            dto = await _client.GetLocations(localizationName, distance: distance, sortOrder: sortOrder);
         }
         else
         {
-            dto = await _client.GetLocations(lat, lng);
+            dto = await _client.GetLocations(latitude, longitude, distance: distance, sortOrder: sortOrder);
         }
 
         if (dto == null)
@@ -34,8 +40,8 @@ internal class OpenAQAirQualityService : IAirQualityService
         return new LocalizationAirQuality
         {
             LocalizationName = localizationName,
-            Latitude = lat,
-            Longitude = lng,
+            Latitude = latitude,
+            Longitude = longitude,
             MeasurementStations = ParseMeasurementsStations(dto.Results)
         };
     }
