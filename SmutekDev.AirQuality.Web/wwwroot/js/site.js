@@ -22,6 +22,12 @@ function toggleLoadingSpinner() {
     }
 }
 
+function resetForm() {
+    document.getElementById("localization").value = "";
+    document.getElementById("lat").value = "";
+    document.getElementById("lng").value = "";
+}
+
 function onCheckQualityFormSubmit(e) {
     e.preventDefault();
     loadResults();
@@ -45,6 +51,7 @@ function loadResults() {
             .then(html => {
                 resultsContainer.innerHTML = html;
                 toggleLoadingSpinner();
+                resetForm();
             });
     }, 1000);
 };

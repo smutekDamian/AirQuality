@@ -13,15 +13,19 @@ internal class OpenAQAirQualityService : IAirQualityService
         _client = client;
     }
 
-    public async Task<LocalizationAirQuality> GetAirQualityForLocalization(string localizationName, string lat,
-        string lng)
+    public async Task<LocalizationAirQuality> GetAirQualityForLocalization(string localizationName, string lat, string lng)
     {
+        GetLocationsDto dto;
+
         if (string.IsNullOrWhiteSpace(lat) || string.IsNullOrWhiteSpace(lng))
         {
-            return null;
+            dto = await _client.GetLocations(localizationName);
+        }
+        else
+        {
+            dto = await _client.GetLocations(lat, lng);
         }
 
-        var dto = await _client.GetLocations(lat, lng);
         if (dto == null)
         {
             return null;

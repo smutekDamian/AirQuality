@@ -19,6 +19,17 @@ internal class OpenAQClient
     public async Task<GetLocationsDto> GetLocations(string lat, string lng, int page = 1, int pageSize = 10, int skip = 0)
     {
         var url = $"locations?limit={pageSize}&page={page}&offset={skip}&coordinates={lat},{lng}&radius=10000";
+        return await GetLocations(url);
+    }
+
+    public async Task<GetLocationsDto> GetLocations(string city, int page = 1, int pageSize = 10, int skip = 0)
+    {
+        var url = $"locations?limit={pageSize}&page={page}&offset={skip}&city={city}&radius=10000";
+        return await GetLocations(url);
+    }
+
+    private async Task<GetLocationsDto> GetLocations(string url)
+    {
         try
         {
             var response = await _httpClient.GetAsync(url);
@@ -26,7 +37,8 @@ internal class OpenAQClient
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError("Failed to get successful results for location {lat}, {lng}. Message from an API: {msg}", lat, lng, stringResult);
+                _logger.LogError("Failed to get successful results for {url}. Message from an API: {msg}", url,
+                    stringResult);
                 return null;
             }
 
@@ -37,7 +49,7 @@ internal class OpenAQClient
         }
         catch (HttpRequestException e)
         {
-            _logger.LogError(e, "Error when getting locations for {lat}, {lng}", lat, lng);
+            _logger.LogError(e, "Error when getting locations for {url}", url);
             return null;
         }
     }
