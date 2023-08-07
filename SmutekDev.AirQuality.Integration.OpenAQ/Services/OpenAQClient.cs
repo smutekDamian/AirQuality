@@ -11,20 +11,24 @@ internal class OpenAQClient
     private readonly HttpClient _httpClient;
     private readonly ILogger _logger;
 
+    public OpenAQClient()
+    {
+    }
+
     public OpenAQClient(HttpClient httpClient, ILogger<OpenAQClient> logger)
     {
         _httpClient = httpClient;
         _logger = logger;
     }
 
-    public async Task<GetLocationsDto> GetLocations(string lat, string lng, int page = 1, int pageSize = 10, 
+    public virtual async Task<GetLocationsDto> GetLocations(string lat, string lng, int page = 1, int pageSize = 10, 
         int skip = 0, Distance distance = Distance.OneKm, SortOrder sortOrder = SortOrder.FirstUpdated)
     {
         var url = $"locations?limit={pageSize}&page={page}&offset={skip}&coordinates={lat},{lng}&radius={GetDistanceParam(distance)}&{GetSortOrderParameter(sortOrder)}";
         return await GetLocations(url);
     }
 
-    public async Task<GetLocationsDto> GetLocations(string city, int page = 1, int pageSize = 10, int skip = 0, 
+    public virtual async Task<GetLocationsDto> GetLocations(string city, int page = 1, int pageSize = 10, int skip = 0, 
         Distance distance = Distance.OneKm, SortOrder sortOrder = SortOrder.FirstUpdated)
     {
         var url = $"locations?limit={pageSize}&page={page}&offset={skip}&city={city}&radius={GetDistanceParam(distance)}&{GetSortOrderParameter(sortOrder)}";
