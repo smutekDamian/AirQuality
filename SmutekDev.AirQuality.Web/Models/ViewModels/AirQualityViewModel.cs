@@ -4,7 +4,7 @@ namespace SmutekDev.AirQuality.Web.Models.ViewModels;
 
 public class AirQualityViewModel
 {
-    public string Localization => AirQuality?.LocalizationName;
     public LocalizationAirQuality AirQuality { get; set; }
+    public string Localization => AirQuality?.LocalizationName;
     public bool IsDataAvailable => AirQuality?.MeasurementStations?.Any() ?? false;
 }
