@@ -1,6 +1,6 @@
 # Air Quality
 
-Simple .NET 7 Web App that shows Air Quality data for the desired location. Data comes from the [OpenAQ](https://openaq.org/) API. Localization can be chosen from the [Google Places API autocomplete](https://developers.google.com/maps/documentation/places/web-service/autocomplete) dropdown.
+A simple .NET 7 Web App that shows Air Quality data for the desired location. Data comes from the [OpenAQ](https://openaq.org/) API. Localization can be chosen from the [Google Places API autocomplete](https://developers.google.com/maps/documentation/places/web-service/autocomplete) dropdown.
 
 ![ezgif com-crop (1)](https://github.com/smutekDamian/AirQuality/assets/23149907/31e7dad4-7c75-4c47-adf0-cdfde6469e55)
 
