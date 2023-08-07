@@ -1,5 +1,6 @@
 using NSubstitute;
 using SmutekDev.AirQuality.Core.Models;
+using SmutekDev.AirQuality.Integration.OpenAQ.Models;
 using SmutekDev.AirQuality.Integration.OpenAQ.Models.DTOs;
 using SmutekDev.AirQuality.Integration.OpenAQ.Services;
 
@@ -12,7 +13,7 @@ public class OpenAQAirQualityServiceTests
     {
         //Arrange
         var client = Substitute.For<OpenAQClient>();
-        client.GetLocations("Test", 1, 100, 0, distance: Arg.Any<Distance>(), sortOrder: Arg.Any<SortOrder>()).Returns(Task.FromResult(new GetLocationsDto
+        client.GetLocationsByCity("Test", Arg.Any<FilteringParameters>()).Returns(Task.FromResult(new GetLocationsDto
         {
             Results = new List<LocationDto>
             {
@@ -44,45 +45,53 @@ public class OpenAQAirQualityServiceTests
     {
         //Arrange
         var client = Substitute.For<OpenAQClient>();
-        client.GetLocations("Test", 1, 10, 0, distance: Arg.Any<Distance>(), sortOrder: Arg.Any<SortOrder>()).Returns(Task.FromResult(new GetLocationsDto
-        {
-            Results = new List<LocationDto>
+        client
+            .GetLocationsByCity(
+                "Test",
+                Arg.Is<FilteringParameters>(x => x.Page == 1 && x.PageSize == 10 && x.Skip == 0))
+            .Returns(Task.FromResult(new GetLocationsDto
             {
-                new() { Id = 1 },
-                new() { Id = 2 },
-                new() { Id = 3 },
-                new() { Id = 4 },
-                new() { Id = 5 },
-                new() { Id = 6 },
-                new() { Id = 7 },
-                new() { Id = 8 },
-                new() { Id = 9 },
-                new() { Id = 10 },
-            },
-            Meta = new MetaDto
+                Results = new List<LocationDto>
+                    {
+                        new() { Id = 1 },
+                        new() { Id = 2 },
+                        new() { Id = 3 },
+                        new() { Id = 4 },
+                        new() { Id = 5 },
+                        new() { Id = 6 },
+                        new() { Id = 7 },
+                        new() { Id = 8 },
+                        new() { Id = 9 },
+                        new() { Id = 10 },
+                    },
+                Meta = new MetaDto
+                {
+                    Found = 15,
+                    Limit = 10,
+                    Page = 1
+                }
+            }));
+
+        client.GetLocationsByCity(
+            "Test",
+            Arg.Is<FilteringParameters>(x => x.Page == 2 && x.PageSize == 10 && x.Skip == 10))
+            .Returns(Task.FromResult(new GetLocationsDto
             {
-                Found = 15,
-                Limit = 10,
-                Page = 1
-            }
-        }));
-        client.GetLocations("Test", 2, 10, 10, distance: Arg.Any<Distance>(), sortOrder: Arg.Any<SortOrder>()).Returns(Task.FromResult(new GetLocationsDto
-        {
-            Results = new List<LocationDto>
-            {
-                new() { Id = 11 },
-                new() { Id = 12 },
-                new() { Id = 13 },
-                new() { Id = 14 },
-                new() { Id = 15 }
-            },
-            Meta = new MetaDto
-            {
-                Found = 15,
-                Limit = 10,
-                Page = 2
-            }
-        }));
+                Results = new List<LocationDto>
+                {
+                    new() { Id = 11 },
+                    new() { Id = 12 },
+                    new() { Id = 13 },
+                    new() { Id = 14 },
+                    new() { Id = 15 }
+                },
+                Meta = new MetaDto
+                {
+                    Found = 15,
+                    Limit = 10,
+                    Page = 2
+                }
+            }));
 
         var service = new OpenAQAirQualityService(client);
 

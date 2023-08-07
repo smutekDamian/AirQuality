@@ -1,5 +1,6 @@
 ﻿using SmutekDev.AirQuality.Core.Models;
 using SmutekDev.AirQuality.Core.Services;
+using SmutekDev.AirQuality.Integration.OpenAQ.Models;
 using SmutekDev.AirQuality.Integration.OpenAQ.Models.DTOs;
 
 namespace SmutekDev.AirQuality.Integration.OpenAQ.Services;
@@ -17,35 +18,13 @@ internal class OpenAQAirQualityService : IAirQualityService
     {
         IEnumerable<LocationDto> locations;
 
-        var latitude = parameters.Lat;
-        var longitude = parameters.Lng;
-        var localizationName = parameters.Localization;
-        var distance = parameters.Distance;
-        var sortOrder = parameters.SortOrder;
-        var pageSize = parameters.PageSize;
-
-        if (string.IsNullOrWhiteSpace(latitude) || string.IsNullOrWhiteSpace(longitude))
+        if (CoordinatesAreMissing(parameters))
         {
-            locations = await GetAllResults(page => 
-                _client.GetLocations(
-                    localizationName, 
-                    page, 
-                    pageSize, 
-                    (page - 1) * pageSize, 
-                    distance, 
-                    sortOrder));
+            locations = await GetLocationsByCity(parameters);
         }
         else
         {
-            locations = await GetAllResults(page =>
-                    _client.GetLocations(
-                        latitude,
-                        longitude,
-                        page,
-                        pageSize,
-                        (page - 1) * pageSize,
-                        distance, 
-                        sortOrder));
+            locations = await GetLocationsByCoordinates(parameters);
         }
 
         if (locations == null)
@@ -55,11 +34,47 @@ internal class OpenAQAirQualityService : IAirQualityService
 
         return new LocalizationAirQuality
         {
-            LocalizationName = localizationName,
-            Latitude = latitude,
-            Longitude = longitude,
+            LocalizationName = parameters.Localization,
+            Latitude = parameters.Lat,
+            Longitude = parameters.Lng,
             MeasurementStations = ParseMeasurementsStations(locations)
         };
+    }
+
+    private static bool CoordinatesAreMissing(GetAirQualityParams parameters)
+    {
+        return string.IsNullOrWhiteSpace(parameters.Lat) || string.IsNullOrWhiteSpace(parameters.Lng);
+    }
+
+    private async Task<IEnumerable<LocationDto>> GetLocationsByCoordinates(GetAirQualityParams parameters)
+    {
+        return await GetAllResults(page =>
+            _client.GetLocationsByCoordinates(
+                parameters.Lat,
+                parameters.Lng,
+                new FilteringParameters
+                {
+                    Page = page,
+                    PageSize = parameters.PageSize,
+                    Skip = (page - 1) * parameters.PageSize,
+                    Distance = parameters.Distance,
+                    SortOrder = parameters.SortOrder
+                }));
+    }
+
+    private async Task<IEnumerable<LocationDto>> GetLocationsByCity(GetAirQualityParams parameters)
+    {
+        return await GetAllResults(page => 
+            _client.GetLocationsByCity(
+                parameters.Localization,
+                new FilteringParameters
+                {
+                    Page = page,
+                    PageSize = parameters.PageSize,
+                    Skip = (page - 1) * parameters.PageSize,
+                    Distance = parameters.Distance,
+                    SortOrder = parameters.SortOrder
+                }));
     }
 
     private static async Task<IEnumerable<LocationDto>> GetAllResults(Func<int, Task<GetLocationsDto>> fetchRequest)

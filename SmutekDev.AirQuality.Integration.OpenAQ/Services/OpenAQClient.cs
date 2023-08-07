@@ -3,6 +3,7 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using SmutekDev.AirQuality.Integration.OpenAQ.Models.DTOs;
 using SmutekDev.AirQuality.Core.Models.Enums;
+using SmutekDev.AirQuality.Integration.OpenAQ.Models;
 
 namespace SmutekDev.AirQuality.Integration.OpenAQ.Services;
 
@@ -11,7 +12,8 @@ internal class OpenAQClient
     private readonly HttpClient _httpClient;
     private readonly ILogger _logger;
 
-    public OpenAQClient()
+    //Parameterless constructor for mocking
+    internal OpenAQClient()
     {
     }
 
@@ -21,17 +23,29 @@ internal class OpenAQClient
         _logger = logger;
     }
 
-    public virtual async Task<GetLocationsDto> GetLocations(string lat, string lng, int page = 1, int pageSize = 10, 
-        int skip = 0, Distance distance = Distance.OneKm, SortOrder sortOrder = SortOrder.FirstUpdated)
+    public virtual async Task<GetLocationsDto> GetLocationsByCoordinates(string lat, string lng, FilteringParameters filteringParameters)
     {
-        var url = $"locations?limit={pageSize}&page={page}&offset={skip}&coordinates={lat},{lng}&radius={GetDistanceParam(distance)}&{GetSortOrderParameter(sortOrder)}";
+        var url = "locations?" +
+                  $"limit={filteringParameters.PageSize}" +
+                  $"&page={filteringParameters.Page}" +
+                  $"&offset={filteringParameters.Skip}" +
+                  $"&coordinates={lat},{lng}" +
+                  $"&radius={GetDistanceParam(filteringParameters.Distance)}" +
+                  $"&{GetSortOrderParameter(filteringParameters.SortOrder)}";
+
         return await GetLocations(url);
     }
 
-    public virtual async Task<GetLocationsDto> GetLocations(string city, int page = 1, int pageSize = 10, int skip = 0, 
-        Distance distance = Distance.OneKm, SortOrder sortOrder = SortOrder.FirstUpdated)
+    public virtual async Task<GetLocationsDto> GetLocationsByCity(string city, FilteringParameters filteringParameters)
     {
-        var url = $"locations?limit={pageSize}&page={page}&offset={skip}&city={city}&radius={GetDistanceParam(distance)}&{GetSortOrderParameter(sortOrder)}";
+        var url = "locations?" +
+                  $"limit={filteringParameters.PageSize}" +
+                  $"&page={filteringParameters.Page}" +
+                  $"&offset={filteringParameters.Skip}" +
+                  $"&city={city}" +
+                  $"&radius={GetDistanceParam(filteringParameters.Distance)}" +
+                  $"&{GetSortOrderParameter(filteringParameters.SortOrder)}";
+
         return await GetLocations(url);
     }
 
@@ -46,8 +60,7 @@ internal class OpenAQClient
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogError("Failed to get successful results for {url}. Message from an API: {msg}", url,
-                    stringResult);
+                _logger.LogError("Failed to get successful results for {url}. Message from an API: {msg}", url, stringResult);
                 return null;
             }
 
