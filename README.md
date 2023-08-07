@@ -19,6 +19,6 @@ A simple .NET 7 Web App that shows Air Quality data for the desired location. Da
     ```sh
     dotnet run
     ```
-5. Go to http://localhost:5041/ in the browser
+5. Go to http://localhost:5041/ or https://localhost:7079 in the browser
 
 ![image](https://github.com/smutekDamian/AirQuality/assets/23149907/6dfb8638-ad23-48b0-81a8-679c5beac655)
