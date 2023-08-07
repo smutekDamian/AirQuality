@@ -22,12 +22,6 @@ function toggleLoadingSpinner() {
     }
 }
 
-function resetForm() {
-    document.getElementById("localization").value = "";
-    document.getElementById("lat").value = "";
-    document.getElementById("lng").value = "";
-}
-
 function onCheckQualityFormSubmit(e) {
     e.preventDefault();
     loadResults();
@@ -51,14 +45,22 @@ function loadResults() {
             .then(html => {
                 resultsContainer.innerHTML = html;
                 toggleLoadingSpinner();
-                resetForm();
             });
     }, 1000);
 };
 
 const checkQualityForm = document.getElementById("checkQuality");
+const distanceSelect = document.getElementById("distanceSelect");
+const sortOrderSelect = document.getElementById("sortOrderSelect");
 
 if (checkQualityForm) {
     checkQualityForm.addEventListener("submit", onCheckQualityFormSubmit);
+
+    distanceSelect.addEventListener("change", () => {
+        loadResults();
+    });
+    sortOrderSelect.addEventListener("change", () => {
+        loadResults();
+    });
 }
 

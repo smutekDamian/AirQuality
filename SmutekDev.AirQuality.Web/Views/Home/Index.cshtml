@@ -1,4 +1,5 @@
-﻿@model HomeViewModel
+﻿@using SmutekDev.AirQuality.Core.Models
+@model HomeViewModel
 
 @section Scripts
 {
@@ -11,9 +12,21 @@
         <section class="col-6 container">
             <form id="checkQuality" class="row g-3 align-items-center text-end" method="post" asp-action="AirQuality">
                 @Html.AntiForgeryToken()
-                <div class="col col-md-8 offset-md-2">
+                <div class="col col-md-6">
                     <input type="text" id="autocomplete" class="border border-2 form-control p-3" placeholder="Enter a location">
                 </div>
+                <div class="col col-md-3">
+                    <select id="distanceSelect" asp-for="Distance" asp-items="Html.GetEnumSelectList<Distance>()" class="form-select p-3">
+                        
+                    </select>
+                </div>
+                <div class="col col-md-3">
+                    <select id="sortOrderSelect" asp-for="SortOrder" asp-items="Html.GetEnumSelectList<SortOrder>()" class="form-select p-3">
+                        
+                    </select>
+                </div>
+                
+                
                 <input type="hidden" id="localization" name="localization"/>
                 <input type="hidden" id="lat" name="lat"/>
                 <input type="hidden" id="lng" name="lng"/>
