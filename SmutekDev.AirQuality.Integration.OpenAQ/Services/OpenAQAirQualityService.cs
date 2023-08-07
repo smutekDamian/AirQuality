@@ -49,32 +49,25 @@ internal class OpenAQAirQualityService : IAirQualityService
     private async Task<IEnumerable<LocationDto>> GetLocationsByCoordinates(GetAirQualityParams parameters)
     {
         return await GetAllResults(page =>
-            _client.GetLocationsByCoordinates(
-                parameters.Lat,
-                parameters.Lng,
-                new FilteringParameters
-                {
-                    Page = page,
-                    PageSize = parameters.PageSize,
-                    Skip = (page - 1) * parameters.PageSize,
-                    Distance = parameters.Distance,
-                    SortOrder = parameters.SortOrder
-                }));
+            _client.GetLocationsByCoordinates(parameters.Lat, parameters.Lng, GetFilteringParameters(parameters, page)));
     }
 
     private async Task<IEnumerable<LocationDto>> GetLocationsByCity(GetAirQualityParams parameters)
     {
         return await GetAllResults(page => 
-            _client.GetLocationsByCity(
-                parameters.Localization,
-                new FilteringParameters
-                {
-                    Page = page,
-                    PageSize = parameters.PageSize,
-                    Skip = (page - 1) * parameters.PageSize,
-                    Distance = parameters.Distance,
-                    SortOrder = parameters.SortOrder
-                }));
+            _client.GetLocationsByCity(parameters.Localization, GetFilteringParameters(parameters, page)));
+    }
+
+    private static FilteringParameters GetFilteringParameters(GetAirQualityParams parameters, int page)
+    {
+        return new FilteringParameters
+        {
+            Page = page,
+            PageSize = parameters.PageSize,
+            Skip = (page - 1) * parameters.PageSize,
+            Distance = parameters.Distance,
+            SortOrder = parameters.SortOrder
+        };
     }
 
     private static async Task<IEnumerable<LocationDto>> GetAllResults(Func<int, Task<GetLocationsDto>> fetchRequest)
