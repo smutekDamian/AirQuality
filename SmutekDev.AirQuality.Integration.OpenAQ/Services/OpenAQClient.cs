@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
-using SmutekDev.AirQuality.Core.Models;
 using SmutekDev.AirQuality.Integration.OpenAQ.Models.DTOs;
+using SmutekDev.AirQuality.Core.Models.Enums;
 
 namespace SmutekDev.AirQuality.Integration.OpenAQ.Services;
 

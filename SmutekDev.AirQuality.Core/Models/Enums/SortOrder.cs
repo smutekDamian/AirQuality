@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SmutekDev.AirQuality.Core.Models;
+namespace SmutekDev.AirQuality.Core.Models.Enums;
 
 public enum SortOrder
 {

@@ -1,4 +1,6 @@
-﻿namespace SmutekDev.AirQuality.Core.Models;
+﻿using SmutekDev.AirQuality.Core.Models.Enums;
+
+namespace SmutekDev.AirQuality.Core.Models;
 
 public class GetAirQualityParams
 {
