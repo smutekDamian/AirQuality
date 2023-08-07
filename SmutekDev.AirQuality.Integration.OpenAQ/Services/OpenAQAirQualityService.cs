@@ -15,24 +15,40 @@ internal class OpenAQAirQualityService : IAirQualityService
 
     public async Task<LocalizationAirQuality> GetAirQualityForLocalization(GetAirQualityParams parameters)
     {
-        GetLocationsDto dto;
+        IEnumerable<LocationDto> locations;
 
         var latitude = parameters.Lat;
         var longitude = parameters.Lng;
         var localizationName = parameters.Localization;
         var distance = parameters.Distance;
         var sortOrder = parameters.SortOrder;
+        var pageSize = parameters.PageSize;
 
         if (string.IsNullOrWhiteSpace(latitude) || string.IsNullOrWhiteSpace(longitude))
         {
-            dto = await _client.GetLocations(localizationName, distance: distance, sortOrder: sortOrder);
+            locations = await GetAllResults(page => 
+                _client.GetLocations(
+                    localizationName, 
+                    page, 
+                    pageSize, 
+                    (page - 1) * pageSize, 
+                    distance, 
+                    sortOrder));
         }
         else
         {
-            dto = await _client.GetLocations(latitude, longitude, distance: distance, sortOrder: sortOrder);
+            locations = await GetAllResults(page =>
+                    _client.GetLocations(
+                        latitude,
+                        longitude,
+                        page,
+                        pageSize,
+                        (page - 1) * pageSize,
+                        distance, 
+                        sortOrder));
         }
 
-        if (dto == null)
+        if (locations == null)
         {
             return null;
         }
@@ -42,8 +58,36 @@ internal class OpenAQAirQualityService : IAirQualityService
             LocalizationName = localizationName,
             Latitude = latitude,
             Longitude = longitude,
-            MeasurementStations = ParseMeasurementsStations(dto.Results)
+            MeasurementStations = ParseMeasurementsStations(locations)
         };
+    }
+
+    private static async Task<IEnumerable<LocationDto>> GetAllResults(Func<int, Task<GetLocationsDto>> fetchRequest)
+    {
+        var page = 1;
+        var continueFetching = true;
+        var locations = new List<LocationDto>();
+
+        do
+        {
+            var result = await fetchRequest(page);
+            if (!result?.Results.Any() ?? true)
+            {
+                return null;
+            }
+
+            var meta = result.Meta;
+            if (meta.Page * meta.Limit >= meta.Found)
+            {
+                continueFetching = false;
+            }
+
+            locations.AddRange(result.Results);
+            page++;
+
+        } while (continueFetching);
+
+        return locations;
     }
 
     private static IEnumerable<MeasurementStation> ParseMeasurementsStations(IEnumerable<LocationDto> locationDtos)

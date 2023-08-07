@@ -7,4 +7,5 @@ public class GetAirQualityParams
     public string Lng { get; set; }
     public Distance Distance { get; set; }
     public SortOrder SortOrder { get; set; }
+    public int PageSize { get; set; } = 100;
 }
